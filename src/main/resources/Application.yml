@@ -1,0 +1,29 @@
+server:
+  port: 9091
+
+#spring:
+#  application:
+#    name: gas_kokos
+#  jpa:
+#    database: mysql
+#    hibernate:
+#     ddl-auto: update
+#  datasource:
+#    url: jdbc:mysql://uwkvdkyqht18psyy:XpieDi2ZuGYMs4PwX9IA@b4gq7c6dhue2ufacvwux-mysql.services.clever-cloud.com:3306/b4gq7c6dhue2ufacvwux
+#    username: uwkvdkyqht18psyy
+#    password: XpieDi2ZuGYMs4PwX9IA
+ 
+spring:
+  application:
+    name: gas_kokos
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+     ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/gaskokos
+    username: root
+    password: 
+
+      

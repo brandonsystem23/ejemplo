@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="contenido">
+		<h2>REPORTE DE VENTAS DIARIAS</h2>
+		<div class="row">
+			<div class="form-group col-6">
+				<label for="fecha">Seleccione una fecha</label> <input autocomplete="off"
+					id="fecha" name="fecha" type="date" class="form-control"
+					th:value="${{fecha.toString}}" required="required"
+					onchange="window.location = '/reporte/ventas/'+document.getElementById('fecha').value">
+			</div>
+		</div>
+		<br> <br>
+		<div class="table-responsive">
+			<table class="table" th:if="${!pedidosfiltrados.isEmpty()}">
+				<thead class="thead-dark">
+					<tr class="text-center">
+						<th>CÓD PEDIDO</th>
+						<th>MONTO</th>
+						<th>CLIENTE</th>
+						<th>Detalle</th>
+					</tr>
+				</thead>
+				<tbody th:each="pedido: ${pedidosfiltrados}">
+					<tr>
+						<td th:text="'P00'+${pedido.idpedido}"></td>
+						<td th:text="${'S/. '+pedido.monto}"></td>
+						<td
+							th:text="${pedido.cliente.nombres+' '+pedido.cliente.apellidos}"></td>
+						<td>
+							<!-- 								MODAL DETALLE -->
+							<div class="modal fade" th:id="'modal'+${pedido.idpedido}"
+								tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Detalle
+												del pedido</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+
+											<p>
+												<b>Repartidor</b>
+											</p>
+											<p
+												th:text="${pedido.getTrabajador().nombres+' '+pedido.getTrabajador().apellidos}"></p>
+
+											<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th>Nombre</th>
+															<th>Categoria</th>
+															<th>Cantidad vendida</th>
+															<th>Precio</th>
+															<th>Total</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="detalle : ${pedido.getDetallepedido()}">
+															<td th:text="${detalle.getProducto().nombre}"></td>
+															<td
+																th:text="${detalle.getProducto().categoria.descripcion}"></td>
+															<td th:text="${detalle.cantidad}"></td>
+															<td th:text="${detalle.precio}"></td>
+															<td th:text="${'S/.'+detalle.getTotal()}"></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-outline-primary"
+													data-dismiss="modal">Cerrar</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div> <!-- 						FIN MODAL -->
+
+							<button type="button" class="btn btn-info" data-toggle="modal"
+								th:attr="data-target='#modal'+${pedido.idpedido}">
+								Ver <i class="fa fa-eye" aria-hidden="true"></i>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+		<div class="table-responsive">
+			<table class="table table-bordered"
+				th:if="${!pedidosfiltrados.isEmpty()}">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Fecha seleccionada</th>
+						<th scope="col">Monto total de venta diaria</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td th:text="${#dates.format(fecha, 'dd-MMM-yyyy')}"></td>
+						<td th:text="'S/. '+${venta}"></td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<div th:if="${pedidosfiltrados.isEmpty()}">
+			<h2>No existe registros de ventas en la fecha indicada</h2>
+		</div>
+
+	</div>
+</body>
+</html>

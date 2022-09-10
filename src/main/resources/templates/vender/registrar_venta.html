@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="master">
+	<meta charset="utf-8">
+<body>
+	<div th:fragment="contenido">
+			<h2>REGISTRAR PEDIDO</h2>
+			<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)"
+				th:if="${mensaje != null}" th:text="${mensaje}" class="alert">
+			</div>
+			<form th:action="@{/venta/registrar}" method="post">
+				
+
+				<div class="row">
+					<div class="form-group col-6">
+					<label for="producto">Producto</label>
+					<input
+						autocomplete="off"  list="producto" 
+						id="nombreproducto" name="nombreproducto"
+						placeholder="Ingrese el nombre del producto" type="text"
+						class="form-control" required="required" maxlength="10" onkeypress="return soloLetras(event)">
+					</div>
+					
+					<datalist id="producto" >	
+							<option th:each="item: ${productos}" th:if="${item.stock>0 and item.estado=='ACTIVO'}"
+								th:text="${item.nombre}"></option>
+					</datalist >
+	
+	
+	
+					<div class="form-group col-6">
+						<label for="cantidad">Cantidad</label> <input autocomplete="off"
+							id="cantidad" name="cantidad" placeholder="Cantidad del producto"
+							type="number" class="form-control" required="required" min="1" max="50">
+					</div>
+				</div>
+				
+			<button class="btn btn-warning" type="submit" style="color: white;">
+				Agregar al carrito <i class="fa fa-plus-square" aria-hidden="true"></i>
+			</button>
+			
+			</form>
+			
+			<h2 th:text="${'Total: S/. ' + total}"></h2>
+			
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead class="thead-dark">
+						<tr>
+							<th>Producto</th>
+							<th>Categoria</th>
+							<th>Precio</th>
+							<th>Cantidad</th>
+							<th>Total</th>
+							<th>Opción</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item, iterador : ${session.carrito}">
+							<td th:text="${item.producto.nombre}"></td>
+							<td th:text="${item.producto.categoria.descripcion}"></td>
+							<td th:text="${item.producto.precio}"></td>
+							<td th:text="${item.cantidad}"></td>
+							<td th:text="${item.getTotal()}"></td>
+							<td>
+								<form th:action="@{/venta/quitar/} + ${iterador.index}"
+									method="post">
+									<button type="submit" class="btn btn-danger">
+										<i class="fa fa-trash"></i>
+									</button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<form th:action="@{/venta/terminar}" method="post">
+					<div class="row">
+
+						<div class="form-group col-6">
+							<label for="cliente">Cliente</label>
+							<input
+								autocomplete="off"  list="cliente" 
+								id="nombrecliente" name="nombrecliente"
+								placeholder="Ingrese el nombre completo del cliente" type="text"
+								class="form-control" required="required" maxlength="50" onkeypress="return soloLetras(event)">
+						</div>
+						
+						<datalist id="cliente" >	
+								<option th:each="c: ${clientes}" th:if="${c.estado=='ACTIVO'}"
+									th:text="${c.nombres+' '+c.apellidos}"></option>
+						</datalist >
+						
+						<div class="form-group col-6">
+							<label for="trabajador">Repartidor</label>
+							<input
+								autocomplete="off"  list="trabajador" 
+								id="nombretrabajador" name="nombretrabajador"
+								placeholder="Ingrese el nombre completo del trabajador" type="text"
+								class="form-control" required="required" maxlength="50" onkeypress="return soloLetras(event)">
+						</div>
+						
+						<datalist id="trabajador" >	
+								<option th:each="t: ${trabajadores}" th:if="${t.estado=='ACTIVO' and t.getUser().getAuthority().authority=='ROLE_REPARTIDOR'}"
+								 th:text="${t.nombres+' '+t.apellidos}"></option>
+						</datalist >
+						
+					</div>
+					
+					<div class="row">
+						<div class="form-group col-6">
+							<label for="fecha">Fecha</label> <input autocomplete="off"
+								id="fecha" name="fecha" 
+								type="date" class="form-control" required="required">
+						</div>
+					</div>
+					<input type="hidden" name="total" id="total" th:value="${total}">
+					<button type="submit" class="btn btn-success" onclick="return confirm('¿Estás seguro que desea guardar el pedido?');">
+						Guardar Pedido&nbsp;<i class="fa fa-check"></i>
+					</button>
+					<a th:href="@{/venta/limpiar}" class="btn btn-danger">Cancelar
+						Pedido&nbsp;<i class="fa fa-trash"></i>
+					</a>
+				</form>
+		
+		<script type="text/javascript">
+		window.onload = function(){
+			  var fecha = new Date(); //Fecha actual
+			  var mes = fecha.getMonth()+1; //obteniendo mes
+			  var dia = fecha.getDate(); //obteniendo dia
+			  var ano = fecha.getFullYear(); //obteniendo año
+			  if(dia<10)
+			    dia='0'+dia; //agrega cero si el menor de 10
+			  if(mes<10)
+			    mes='0'+mes //agrega cero si el menor de 10
+			  document.getElementById('fecha').value=ano+"-"+mes+"-"+dia;
+			  document.getElementById("fecha").setAttribute("min", ano+"-"+mes+"-"+dia);
+			}
+		
+		
+		  function soloLetras(e) {
+		    var key = e.keyCode || e.which,
+		      tecla = String.fromCharCode(key).toLowerCase(),
+		      letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
+		      especiales = [8, 37, 39, 46],
+		      tecla_especial = false;
+
+		    for (var i in especiales) {
+		      if (key == especiales[i]) {
+		        tecla_especial = true;
+		        break;
+		      }
+		    }
+
+		    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+		      return false;
+		    }
+		  }
+		
+		</script>
+	</div>
+</body>
+</html>

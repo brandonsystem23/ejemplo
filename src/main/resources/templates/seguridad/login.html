@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link  rel="icon"   href="/images/gas.ico" type="image/png" />
+    <title>Gas Koko's - Inicio de Sesión</title>
+
+    <!-- Bootstrap -->
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" media="all" th:href="@{/css/boton-login.css}" />
+    <!-- Font Awesome -->
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="/animate.css/animate.min.css" rel="stylesheet">
+
+<!--     Custom Theme Style -->
+    <link href="/build/css/custom.css" rel="stylesheet">
+  </head>
+
+  <body class="login">
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form th:action="@{/login}" method="post">
+            	<div class="text-center">
+					<a th:href="@{/index}"><img  th:src="@{/images/app/img.png}" width="270px"></a>
+					
+				</div>
+              <h1 th:text="${titulo}"></h1>
+              <div>
+
+                <input type="email" id="username" name="username" class="form-control" placeholder="Ingrese email laboral" required="required" th:value="${username}"/>
+              </div>
+              <div>
+                <input style="padding-bottom: 5px" type="password" id="password" name="password" class="form-control" placeholder="Ingrese su contraseña" required="required" th:value="${password}" />
+              </div>
+              <div class="button-container-2">
+				    <span class="mas" style="font-family: arial">Ingresar</span>
+				  <button type="submit"  style="font-family: arial">Ingresar</button>
+			</div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1>Gas Koko's!</h1>
+                  <p>©2022 Todos los derechos reservados. Gas Koko's S.R.L.  Privacidad y términos</p>
+                </div>
+              </div>
+            </form>
+  
+             <div th:if="${param.error}" class="alert alert-danger" role="alert">
+		            Usuario y contraseña inválidos.
+		     </div>
+		     <div th:if="${param.logout}" class="alert alert-success" role="alert">
+		            Usted a cerrado sesión.
+		     </div>
+          </section>
+        </div>
+      </div>
+    
+  </body>
+</html>
+
+
+
+
+
+
+

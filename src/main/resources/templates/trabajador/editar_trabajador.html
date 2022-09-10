@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<meta charset="utf-8">
+<body>
+	<div th:fragment="contenido">
+			<h2>EDITAR TRABAJADOR</h2>
+			<form th:object="${trabajador}"
+				th:action="@{/trabajador/editar/} + ${trabajador.idtrabajador}" method="post" enctype="multipart/form-data">
+				<input type="hidden" th:field="*{idtrabajador}">
+				<div class="form-group">
+					<label for="apellidos">Apellidos</label> <input
+						autocomplete="off" autofocus th:field="*{apellidos}" id="apellidos"
+						placeholder="Ingrese los apellidos del trabajador" type="text"
+						class="form-control" maxlength="50" onkeypress="return soloLetras(event)"
+						th:classappend="${#fields.hasErrors('apellidos')} ? 'is-invalid' : ''" required="required">
+					<div class="invalid-feedback" th:errors="*{apellidos}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="nombres">Nombres</label> <input
+						autocomplete="off" autofocus th:field="*{nombres}" id="nombres"
+						placeholder="Ingrese los nombres del trabajador" type="text"
+						class="form-control" maxlength="50" onkeypress="return soloLetras(event)"
+						th:classappend="${#fields.hasErrors('nombres')} ? 'is-invalid' : ''" required="required" style="text-transform:uppercase">
+					<div class="invalid-feedback" th:errors="*{nombres}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="dni">DNI</label> <input
+						autocomplete="off" th:field="*{dni}" id="dni"
+						placeholder="Ingrese el DNI del trabajador" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+						type = "number" maxlength = "8"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('dni')} ? 'is-invalid' : ''" required="required">
+					<div class="invalid-feedback" th:errors="*{dni}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="authority">Cargo</label> 
+					<select th:field="*{user.authority.id}" 
+						id="user.authority.id" name="user.authority.id" class="form-control"
+						th:classappend="${#fields.hasErrors('user.authority.authority')} ? 'is-invalid' : ''">
+						<option th:each="item: ${authorities}" th:value="${item.id}" th:text="${item.authority}"></option>
+					</select>
+				</div>
+	
+				
+				<div class="form-group">
+					<label for="telefono">Telefono</label> <input
+						autocomplete="off" th:field="*{telefono}" id="telefono"
+						placeholder="Ingrese el telefono del trabajador" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+						type = "number" maxlength = "9"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid' : ''" required="required">
+					<div class="invalid-feedback" th:errors="*{telefono}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="email">Email</label> <input
+						autocomplete="off" th:field="*{email}" id="email"
+						placeholder="Ingrese el email del trabajador" type="email"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''">
+					<div class="invalid-feedback" th:errors="*{email}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="direccion">Dirección</label> <input
+						autocomplete="off" th:field="*{direccion}" id="direccion"
+						placeholder="Ingrese la dirección del trabajador" type="text"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('direccion')} ? 'is-invalid' : ''" required="required" style="text-transform:uppercase">
+					<div class="invalid-feedback" th:errors="*{direccion}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="distrito">Distrito</label> 
+					<input
+						autocomplete="off"  list="distrito" th:field="*{distrito.nombre}" 
+						id="distrito.nombre" maxlength="50" onkeypress="return soloLetras(event)"
+						placeholder="Ingrese el distrito del trabajador" type="text"
+						class="form-control" required="required">
+				</div>
+					
+				<datalist id="distrito" >	
+						<option th:each="item: ${distritos}" th:text="${item.nombre}"></option>
+				</datalist >
+				
+					<div class="form-group ">
+						<label for="file" >Foto</label>
+							<input accept="image/png,image/jpeg" type="file" name="file" class="form-control" />
+			
+					</div>
+				
+				
+				<button class="btn btn-success" type="submit">Guardar <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+			</form>
+		</div>
+</body>
+</html>

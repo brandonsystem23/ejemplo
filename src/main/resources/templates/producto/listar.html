@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="contenido">
+	<h2>LISTA DE PRODUCTOS</h2>
+	<a class="btn btn-primary mb-2" th:href="@{/producto/registrar}">Registrar</a>
+	<a class="btn btn-danger mb-2" th:href="@{/producto/exportarPDF}">Exportar PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+	<a class="btn btn-success mb-2" th:href="@{/producto/exportarEXCEL}">Exportar Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+	<br>
+		
+		<div class="form-check form-check-inline" th:if="${modo==1}">
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio1" value="option1" Onclick="window.location = '/producto/listar/1'"  checked="checked">
+			<label class="form-check-label" for="inlineRadio1" style="margin-right: 20px">Todo</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio2" value="option2" Onclick="window.location = '/producto/listar/2'" >
+			<label class="form-check-label" for="inlineRadio2" style="margin-right: 20px">Gas</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio3" value="option3" Onclick="window.location = '/producto/listar/3'">
+			<label class="form-check-label" for="inlineRadio2">Agua</label>
+			
+		</div>
+		
+		<div class="form-check form-check-inline" th:if="${modo==2}">
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio1" value="option1" Onclick="window.location = '/producto/listar/1'"  >
+			<label class="form-check-label" for="inlineRadio1" style="margin-right: 20px">Todo</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio2" value="option2" Onclick="window.location = '/producto/listar/2'" checked="checked">
+			<label class="form-check-label" for="inlineRadio2" style="margin-right: 20px">Gas</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio3" value="option3" Onclick="window.location = '/producto/listar/3'">
+			<label class="form-check-label" for="inlineRadio2">Agua</label>
+			
+		</div>
+		
+		<div class="form-check form-check-inline" th:if="${modo==3}">
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio1" value="option1" Onclick="window.location = '/producto/listar/1'"  >
+			<label class="form-check-label" for="inlineRadio1" style="margin-right: 20px">Todo</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio2" value="option2" Onclick="window.location = '/producto/listar/2'" >
+			<label class="form-check-label" for="inlineRadio2" style="margin-right: 20px">Gas</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio3" value="option3" Onclick="window.location = '/producto/listar/3'" checked="checked">
+			<label class="form-check-label" for="inlineRadio2">Agua</label>
+			
+		</div>
+
+	
+		<br> <br>	
+		<div class="table-responsive">
+		<table class="table" th:if="${!productos.isEmpty()}">
+			<thead class="thead-dark">
+				<tr class="text-center">
+					<th>NOMBRE</th>
+					<th>CATEGORÍA</th>
+					<th>PRECIO</th>
+					<th>STOCK</th>
+					<th>ESTADO</th>
+					<th>OPCIONES</th>
+				</tr>
+			</thead>
+			<tbody th:each="producto: ${productos}">
+				<tr th:if="${producto.estado} == 'ACTIVO'">
+					<td th:text="${producto.nombre}"></td>
+					<td th:text="${producto.categoria.descripcion}"></td>
+					<td th:text="${'S/. '+producto.precio}"></td>
+					<td th:text="${producto.stock}"></td>
+					<td th:if="${producto.estadostock} == 'EN STOCK'" th:text="${producto.estadostock}" style="color:#3B981E;font-family: broadway"></td>
+					<td th:if="${producto.estadostock} == 'SIN STOCK'" th:text="${producto.estadostock}" style="color:#D1180F;font-family: broadway"></td>
+					<td>
+<!-- 							MODAL -->
+							<div class="modal fade" th:id="'modal'+${producto.idproducto}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">Mensaje de Confirmación</h5>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+							      <div class="modal-body">
+							        ¿Esta seguro de eliminar el producto?
+							      </div>
+							      <div class="modal-footer">
+							        <form th:action="@{/producto/eliminar}" method="post" > 
+							        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	 									<input type="hidden" name="idproducto" th:value="${producto.idproducto}" />
+								        <button type="submit" class="btn btn-danger">Aceptar</button>
+							        </form>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+<!-- 							FIN MODAL -->
+							<button type="button" class="btn btn-danger" data-toggle="modal"  th:attr="data-target='#modal'+${producto.idproducto}" >
+								Eliminar <i class="fa fa-trash"></i>
+							</button>
+
+						
+						<a class="btn btn-warning" th:href="@{/producto/editar/} + ${producto.idproducto}" style="color: white;">Editar <i
+                                class="fa fa-edit"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<nav th:replace="paginator-nav::paginator"></nav>
+		</div>
+		<br>
+		<div th:if="${productos.isEmpty()}">
+			<h2>No existe registros de productos</h2>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="contenido">
+		<h2>REPORTE DE CLIENTES MENSUAL</h2>
+		<div class="row">
+			<div class="form-group col-6">
+				<label for="mes">Seleccione un mes</label> <input autocomplete="off"
+					id="mes" name="mes" type="month" class="form-control"
+					th:value="${{mes}}" required="required"
+					onchange="window.location = '/reporte/clientes/'+document.getElementById('mes').value">
+			</div>
+		</div>
+		<br>
+		<div class="table-responsive">
+			<table class="table" th:if="${!clientesfiltrados.isEmpty()}">
+				<thead class="thead-dark">
+					<tr class="text-center">
+						<th>CLIENTE</th>
+						<th>DIRECCIÓN</th>
+						<th>FECHA DE REGISTRO</th>
+					</tr>
+				</thead>
+				<tbody th:each="cliente: ${clientesfiltrados}">
+					<tr>
+						<td th:text="${cliente.nombres+' '+cliente.apellidos}"></td>
+						<td th:text="${cliente.direccion}"></td>
+						<td th:text="${#dates.format(cliente.fecharegistro, 'dd-MMM-yyyy')}"></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+		<br>
+		<div th:if="${clientesfiltrados.isEmpty()}">
+			<h2>No existe registros de clientes en el mes indicado</h2>
+		</div>
+
+
+	</div>
+</body>
+</html>

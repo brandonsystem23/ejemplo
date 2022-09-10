@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<meta charset="utf-8">
+<body>
+	<div th:fragment="contenido">
+			<h2>EDITAR PRODUCTO</h2>
+			<form th:object="${producto}"
+				th:action="@{/producto/editar/} + ${producto.idproducto}" method="post">
+				<input type="hidden" th:field="*{idproducto}">
+				<div class="form-group">
+					<label for="nombre">Nombre del producto</label> <input
+						autocomplete="off" autofocus th:field="*{nombre}" id="nombre"
+						placeholder="Ingrese el nombre del producto" type="text"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid' : ''" required="required" maxlength="20" onkeypress="return soloLetras(event)">
+					<div class="invalid-feedback" th:errors="*{nombre}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="categoria">Categoria</label> 
+					<select th:field="*{categoria.idcategoria}" 
+						id="categoria.idcategoria" class="form-control"
+						th:classappend="${#fields.hasErrors('categoria')} ? 'is-invalid' : ''">
+						<option value="1">GAS</option>
+						<option value="2">AGUA</option>
+					</select>
+					<div class="invalid-feedback" th:errors="*{categoria}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="existencia">Stock</label> <input
+						autocomplete="off" th:field="*{stock}" id="stock"
+						placeholder="Ingrese el stock del producto" type="number" min="1" max="150"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('stock')} ? 'is-invalid' : ''" required="required">
+					<div class="invalid-feedback" th:errors="*{stock}"></div>
+				</div>
+				<div class="form-group">
+					<label for="existencia">Precio</label> <input autocomplete="off" step="0.1"
+						th:field="*{precio}" id="precio" placeholder="Ingrese el precio del producto"
+						type="number" class="form-control" min="1" max="70"
+						th:classappend="${#fields.hasErrors('precio')} ? 'is-invalid' : ''" required="required">
+					<div class="invalid-feedback" th:errors="*{precio}"></div>
+				</div>
+				
+				<button class="btn btn-success" type="submit">Guardar <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+			</form>
+			
+			<script type="text/javascript">
+			
+		  function soloLetras(e) {
+		    var key = e.keyCode || e.which,
+		      tecla = String.fromCharCode(key).toLowerCase(),
+		      letras = " áéíóúabcdefghijklmnñopqrstuvwxyz",
+		      especiales = [8, 37, 39, 46],
+		      tecla_especial = false;
+
+		    for (var i in especiales) {
+		      if (key == especiales[i]) {
+		        tecla_especial = true;
+		        break;
+		      }
+		    }
+
+		    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+		      return false;
+		    }
+		  }
+		
+		</script>
+		</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="contenido" >
+		<h2>LISTA DE TRABAJADORES</h2>
+		<a class="btn btn-primary mb-2" th:href="@{/trabajador/registrar}">Registrar</a>
+		<a class="btn btn-danger mb-2" th:href="@{/trabajador/exportarPDF}">Exportar PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+		<a class="btn btn-success mb-2" th:href="@{/trabajador/exportarEXCEL}">Exportar Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+		<div class="table-responsive">
+		<table class="table" th:if="${!trabajadores.isEmpty()}">
+			<thead class="thead-dark">
+				<tr class="text-center">
+					<th>TRABAJADOR</th>
+					<th>DNI</th>
+					<th>CARGO</th>
+					<th>TELEFONO</th>
+					<th>DIRECCIÓN</th>
+					<th>DISTRITO</th>
+					<th>OPCIONES</th>
+				</tr>
+			</thead>
+			<tbody th:each="trabajador: ${trabajadores}">
+				<tr th:if="${trabajador.estado == 'ACTIVO'}">
+					<td th:text="${trabajador.nombres+' '+trabajador.apellidos}"></td>
+					<td th:text="${trabajador.dni}"></td>
+					<td th:text="${trabajador.getUser().getAuthority().authority}"></td>
+					<td th:text="${trabajador.telefono}"></td>
+					<td th:text="${trabajador.direccion}"></td>
+					<td th:text="${trabajador.distrito.nombre}"></td>
+					<td class="justify-content-center d-flex">
+<!-- 							MODAL -->
+							<div class="modal fade" th:id="'modal'+${trabajador.idtrabajador}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">Mensaje de Confirmación</h5>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+							      <div class="modal-body">
+							        ¿Esta seguro de eliminar el trabajador?
+							      </div>
+							      <div class="modal-footer">
+							        <form th:action="@{/trabajador/eliminar}" method="post" > 
+							        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	 									<input type="hidden" name="idtrabajador" th:value="${trabajador.idtrabajador}" />
+								        <button type="submit" class="btn btn-danger">Aceptar</button>
+							        </form>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+<!-- 							FIN MODAL -->
+							<button type="button" class="btn btn-danger" data-toggle="modal"  th:attr="data-target='#modal'+${trabajador.idtrabajador}" >
+								Eliminar <i class="fa fa-trash"></i>
+							</button>
+
+						
+						<a class="btn btn-warning" th:href="@{/trabajador/editar/} + ${trabajador.idtrabajador}" style="color: white;">Editar <i
+                                class="fa fa-edit"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<nav th:replace="paginator-nav::paginator"></nav>
+		</div>
+		<br>
+		<div th:if="${trabajadores.isEmpty()}">
+			<h2>No existe registros de trabajadores</h2>
+		</div>
+	</div>
+</body>
+</html>

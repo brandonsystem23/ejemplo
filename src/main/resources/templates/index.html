@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<!--
+
+	Salient by TEMPLATE STOCK
+	templatestock.co @templatestock
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gas Koko's</title> 
+<link rel="icon" href="/images/gas.ico" type="image/png" />
+<!-- Custom Google fonts -->
+<link
+	href='http://fonts.googleapis.com/css?family=Raleway:400,500,300,700'
+	rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=Crimson+Text:400,600"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600"
+	rel="stylesheet" type="text/css">
+
+<!-- Bootstrap CSS Style -->
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+<!-- Template CSS Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Animate CSS  -->
+<link rel="stylesheet" href="/css/animate.css">
+
+<!-- FontAwesome 4.3.0 Icons  -->
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+<!-- et line font  -->
+<link rel="stylesheet" href="/css/et-line-font/style.css">
+
+<!-- BXslider CSS  -->
+<link rel="stylesheet" href="/css/bxslider/jquery.bxslider.css">
+
+<!-- Owl Carousel CSS Style -->
+<link rel="stylesheet" href="/css/owl-carousel/owl.carousel.css">
+<link rel="stylesheet" href="/css/owl-carousel/owl.theme.css">
+<link rel="stylesheet" href="/css/owl-carousel/owl.transitions.css">
+
+<!-- Magnific-Popup CSS Style -->
+<link rel="stylesheet" href="/css/magnific-popup/magnific-popup.css">
+
+</head>
+<body>
+
+	<!-- Preload the Whole Page -->
+	<div id="preloader">
+		<div id="loading-animation">&nbsp;</div>
+	</div>
+
+	<!-- Navbar -->
+	<header class="header">
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#navigation-nav">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<h2 style="padding-top: 5px" th:text="${titulo}"></h2>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="navigation-nav">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active"><a class="section-scroll" href="#wrapper">Inicio</a></li>
+						<li><a href="#landing-offer">Acerca</a></li>
+						<li><a href="#features-section">Servicios</a></li>
+						<li><a href="#team-section">Productos</a></li>
+						<li><a href="#subscribe-section">Medios de Pago</a></li>
+						<li><a href="#contact-section">Contactanos</a></li>
+						<li><a th:href="@{/login}">Iniciar Sesión</a></li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container -->
+		</nav>
+	</header>
+	<!-- End Navbar -->
+
+	<div id="wrapper">
+
+		<!-- Hero
+  ================================================== -->
+		<section>
+			<div id="hero-section" class="landing-hero"
+				data-stellar-background-ratio="0">
+				<div class="hero-content">
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
+
+								<div class="hero-text">
+									<div class="herolider">
+										<ul class="caption-slides">
+											<li class="caption">
+												<h2 style="color: white;">BIENVENIDO A NUESTRO SITIO
+													WEB</h2>
+												<div class="div-line"></div> <!--                         <p class="hero">Branding, Photography &amp; Web Development</p> -->
+											</li>
+										</ul>
+									</div>
+									<!-- end herolider -->
+								</div>
+								<!-- end hero-text -->
+
+
+							</div>
+							<!-- end col-md-6 -->
+						</div>
+						<!-- end row -->
+					</div>
+					<!-- End container -->
+				</div>
+				<!-- End hero-content -->
+			</div>
+			<!-- End hero-section -->
+		</section>
+		<!-- End hero section -->
+
+		<!-- Offer
+    ================================================== -->
+		<section style="padding-top: 50px;">
+			<div id="landing-offer" class="pad-sec">
+				<div class="container">
+
+					<div class="title-section big-title-sec animated out"
+						data-animation="fadeInUp" data-delay="0">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
+								<h2 class="big-title">Información de la empresa</h2>
+								<h1 class="big-subtitle">Gas Koko'S S.R.L.</h1>
+								<hr>
+								<p class="about-text">Somos Gas KOKO'S una empresa de
+									distribución de gas y agua, brindándote lo mejor de nosotros en
+									calidad y servicio... ahora mucho más cerca a ti.</p>
+							</div>
+						</div>
+						<!-- End row -->
+					</div>
+					<!-- end title-section -->
+
+					<div class="offer-boxes">
+
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="offer-post text-center animated out"
+									data-animation="fadeInLeft" data-delay="0">
+									<div class="offer-icon">
+										<i class="fa fa-location-arrow" aria-hidden="true"></i>
+									</div>
+									<h4>UBICACIÓN</h4>
+									<p>Cal.Juan Montufar Nro. 1040 P.J. La Esperanza. La
+										Esperanza - La Libertad.</p>
+								</div>
+								<!-- End offer-post -->
+							</div>
+							<!-- End col-sm-4 -->
+
+							<div class="col-sm-6">
+								<div class="offer-post text-center animated out"
+									data-animation="fadeInUp" data-delay="0">
+									<div class="offer-icon">
+										<i class="fa fa-calendar" aria-hidden="true"></i>
+									</div>
+									<h4>ATENCIÓN</h4>
+									<p>Lun. a Sab: 6:00 am -9:00 pm</p>
+									<p>Dom: 7:00 am - 9:00 pm</p>
+								</div>
+								<!-- End offer-post -->
+							</div>
+						</div>
+						<!-- End row -->
+
+					</div>
+					<!-- End offer-boxes -->
+				</div>
+				<!-- End container -->
+			</div>
+			<!-- End landing-offer-section -->
+		</section>
+		<!-- End offer section -->
+
+		<section>
+			<div class="sep-section"></div>
+		</section>
+
+		<!-- Features services
+    ================================================== -->
+		<section>
+			<div id="features-section" class="pad-sec">
+				<div class="container">
+					<div class="title-section text-center animated out"
+						data-animation="fadeInUp" data-delay="0">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
+								<h2>¿Qué ofrecemos?</h2>
+								<hr>
+								<p>Gas Koko's te ofrece productos de buena calidad y la
+									mejor atención al cliente</p>
+							</div>
+							<!-- edn col-sm-8 -->
+						</div>
+						<!-- End row -->
+					</div>
+					<!-- end title-section -->
+					<div class="row">
+						<div class=" col-xs-12 col-md-4 without-padding">
+							<div class="left-features-services">
+								<ul class="features-list">
+									<!-- feature -->
+									<li>
+										<div class="left-features-box animated out"
+											data-animation="fadeInLeft" data-delay="0">
+											<span class="iconbox"><img th:src="@{/images/app/gas.png}"></span>
+											<div class="features-box-content">
+												<h6>Distribuidora de gas</h6>
+												<p>Gas de distintas marcas y precios para nuestros
+													clientes.</p>
+											</div>
+											<!-- end features-box-content -->
+										</div> <!-- end left-features-box -->
+									</li>
+									<!-- feature -->
+									<li>
+										<div class="left-features-box animated out"
+											data-animation="fadeInLeft" data-delay="0">
+											<span class="iconbox"><img th:src="@{/images/app/agua.png}"></span>
+											<div class="features-box-content">
+												<h6>Distribuidora de agua</h6>
+												<p>Agua mineral embotellada de la mejor calidad</p>
+											</div>
+											<!-- end features-box-content -->
+										</div> <!-- end left-features-box -->
+									</li>
+								</ul>
+								<!-- end features-list -->
+							</div>
+							<!-- end left-features-service -->
+						</div>
+						<!--  end col-md-3 -->
+
+						<div class="col-xs-12 col-md-4 d-flex justify-content-center features-image animated out" data-animation="fadeInUp" data-delay="0">
+			
+								<img src="/images/temp/men.jpg" alt="">
+							
+							<!-- end features-image -->
+						</div>
+						<!-- end col-md-6 -->
+
+						<div class="col-xs-12 col-md-4 without-padding">
+							<div class="right-features-services">
+								<ul class="features-list">
+									<!-- feature -->
+									<li>
+										<div class="right-features-box animated out"
+											data-animation="fadeInRight" data-delay="0">
+											<span class="iconbox"><img th:src="@{/images/app/delivery.png}"></span>
+											<div class="features-box-content">
+												<h6>Delivery gratis</h6>
+												<p>Llegamos hasta la puerta de tu casa.</p>
+											</div>
+										</div>
+									</li>
+									<!-- feature -->
+<!-- 									<li> -->
+<!-- 										<div class="right-features-box animated out" -->
+<!-- 											data-animation="fadeInRight" data-delay="0"> -->
+<!-- 											<span class="iconbox"><img th:src="@{/images/app/regulador.png}"></span> -->
+<!-- 											<div class="features-box-content"> -->
+<!-- 												<h6>Regulador de gas</h6> -->
+<!-- 												<p>De mayor duración y evita fugas</p> -->
+<!-- 											</div> -->
+<!-- 										</div> -->
+<!-- 									</li> -->
+								</ul>
+								<!-- end features-list -->
+							</div>
+						</div>
+						<!-- end col-md-3 -->
+
+					</div>
+					<!-- end row -->
+				</div>
+				<!-- end container -->
+			</div>
+		</section>
+		<!-- End features-section -->
+
+		<section>
+			<div class="sep-section"></div>
+		</section>
+		<!-- Team
+    ================================================== -->
+		<section>
+			<div id="team-section" class="pad-sec">
+				<div class="container">
+					<div class="title-section animated out" data-animation="fadeInUp"
+						data-delay="0">
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
+								<h2>Nuestros Productos</h2>
+							</div>
+						</div>
+						<!-- End row -->
+					</div>
+					<!-- end title-section -->
+
+					<div class="team-members">
+						<h3>Balón de gas</h3>
+						<div class="row animated out" data-animation="fadeInUp"
+						data-delay="0">
+							<div class="member-team col-xs-12 col-sm-6 col-md-3" th:each="item: ${productos}" th:if="${item.categoria.descripcion=='GAS'}">
+								
+								<img th:if="${item.stock>0 and item.estado=='ACTIVO' and item.nombre=='MAS GAS'}" th:src="@{/images/app/masgas.jpg}">
+								<img th:if="${item.stock>0 and item.estado=='ACTIVO' and item.nombre=='SOLGAS'}" th:src="@{/images/app/solgas.jpg}">
+								<img th:if="${item.stock>0 and item.estado=='ACTIVO' and item.nombre=='LIMAGAS'}" th:src="@{/images/app/limagas.png}">
+								<img th:if="${item.stock>0 and item.estado=='ACTIVO' and item.nombre=='CASERITO'}" th:src="@{/images/app/caserito.jpg}">
+								<img th:if="${item.stock>0 and item.estado=='ACTIVO' and item.nombre=='Z GAS'}" th:src="@{/images/app/zgas.png}">
+								<h3 th:if="${item.stock>0 and item.estado=='ACTIVO' and item.categoria.descripcion=='GAS'}" th:value="${item.idproducto}"
+								th:text="${item.nombre}"></h3>
+								<p th:if="${item.stock>0 and item.estado=='ACTIVO' and item.categoria.descripcion=='GAS'}" th:value="${item.idproducto}"
+								th:text="${'S/.'+item.precio+'0'}"></p>
+							</div>
+
+						</div>
+						<h3>Agua embotellada</h3>
+						<div class="row animated out" data-animation="fadeInUp"
+						data-delay="0">
+							<div class="member-team col-xs-12 col-sm-6 col-md-3" th:each="item: ${productos}" th:if="${item.categoria.descripcion=='AGUA'}">
+								
+								<img th:if="${item.stock>0 and item.estado=='ACTIVO' and item.nombre=='CASINELLI'}" th:src="@{/images/app/casinelli.png}">
+								<img th:if="${item.stock>0 and item.estado=='ACTIVO' and item.nombre=='AQUAMIEL'}" th:src="@{/images/app/aquamiel.jpg}">
+								<img th:if="${item.stock>0 and item.estado=='ACTIVO' and item.nombre=='AGUAFIEL'}" th:src="@{/images/app/aguafiel.png}">
+								<h3 th:if="${item.stock>0 and item.estado=='ACTIVO' and item.categoria.descripcion=='AGUA'}" th:value="${item.idproducto}"
+								th:text="${item.nombre}"></h3>
+								<p th:if="${item.stock>0 and item.estado=='ACTIVO' and item.categoria.descripcion=='AGUA'}" th:value="${item.idproducto}"
+								th:text="${'S/.'+item.precio+'0'}"></p>
+							</div>
+
+						</div>
+					</div>
+					<!-- End team-members -->
+				</div>
+				<!-- End container -->
+			</div>
+			<!-- End team-section -->
+		</section>
+		<!-- End team section -->
+
+		
+		<!-- Subscribe-section
+    ================================================== -->
+		<section>
+			<div id="subscribe-section">
+			<div class="newsletter-title text-center " style="background-color:black; padding: 15px">
+					<h2 style="color: white;">Medios de Pago</h2>
+			</div>
+				<div class="container">
+						
+							
+							<div class="row">
+								<div class="member-team col-xs-12 col-sm-6 col-md-6">
+									<h3>Efectivo</h3>
+									<img th:src="@{/images/app/efectivo.png}">
+								</div>
+								<div class="member-team col-xs-12 col-sm-6 col-md-6">
+									<h3>YAPE / TRANSFERENCIAS</h3>
+									<img th:src="@{/images/app/yape.jpg}">
+								</div>
+							
+							
+							</div>
+				</div>
+				<!-- end container -->
+			</div>
+			<!-- end subscribe-section -->
+		</section>
+		<!-- End subscribe section -->
+
+		<section>
+			<div class="sep-section"></div>
+		</section>
+
+		<!-- Contact-section
+    ================================================== -->
+		<section>
+			<div id="contact-section" class="pad-sec">
+				<div class="container">
+				<div class="newsletter-title text-center">
+								<h2>CONTACTANOS</h2>
+							</div>
+					<div class="row">
+						<div class="redes col-xs-12 col-sm-6 col-md-3">
+							<img th:src="@{/images/app/facebook.png}">
+							<form action="https://www.facebook.com/Gas-Kokos-100141969390532" target="_blank">
+							<button type="submit">ir a Facebook</button>
+							</form>
+						</div>
+						<div class="insta col-xs-12 col-sm-6 col-md-3">
+						<img th:src="@{/images/app/instagram.png}">
+						<form action="https://www.instagram.com/gaskokos.peru/" target="_blank">
+							<button type="submit">ir a Instagram</button>
+						</form>
+						
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-6">
+							<div class="row">
+							<div class="was col-xs-12 col-sm-12 col-md-12"> 
+									<img th:src="@{/images/app/whatsapp.png}">
+							</div>
+								
+							</div>
+							<div class="row" style="margin:0px">
+								<div class="was col-xs-12 col-sm-6 col-md-6"> 
+								<form action="https://wa.link/jhw947" target="_blank">
+									<button type="submit">ir al Whatsapp 1</button>
+								</form>
+									
+								</div>
+								
+								<div class="was col-xs-12 col-sm-6 col-md-6"> 
+									<form action="https://wa.link/1effga" target="_blank">
+										<button type="submit">ir al Whatsapp 2</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end container -->
+
+			</div>
+			<!-- End contact-section -->
+		</section>
+
+
+
+		<!-- Footer
+    ================================================== -->
+		<footer>
+			<div id="footer-section" class="text-center">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<div>
+								<h2>Gas Koko's!</h2>
+								<p>©2022 Todos los derechos reservados. Gas Koko's S.R.L.
+									Privacidad y términos</p>
+							</div>
+						</div>
+						<!-- End col-sm-8 -->
+					</div>
+					<!-- End row -->
+				</div>
+				<!-- End container -->
+			</div>
+			<!-- End footer-section  -->
+		</footer>
+		<!-- End footer -->
+
+	</div>
+	<!-- End wrapper -->
+
+	<!-- Back-to-top
+  ================================================== -->
+	<div class="back-to-top">
+		<i class="fa fa-angle-up fa-3x"></i>
+	</div>
+	<!-- end back-to-top -->
+<!-- Código de instalación Cliengo para www.localhost:9091/menu --> <script type="text/javascript">(function () { var ldk = document.createElement('script'); ldk.type = 'text/javascript'; ldk.async = true; ldk.src = 'https://s.cliengo.com/weboptimizer/62c4c927d3a4e8002aca2650/62df506f67448c002a058978.js?platform=onboarding_modular'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ldk, s); })();</script>
+	<!-- JS libraries and scripts -->
+	<script src="/js/jquery-1.11.3.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/bootstrap-hover-dropdown.min.js"></script>
+	<script src="/js/jquery.appear.min.js"></script>
+	<script src="/js/jquery.bxslider.min.js"></script>
+	<script src="/js/jquery.owl.carousel.min.js"></script>
+	<script src="/js/jquery.countTo.js"></script>
+	<script src="/js/jquery.easing.1.3.js"></script>
+	<script src="/js/jquery.imagesloaded.min.js"></script>
+	<script src="/js/jquery.isotope.js"></script>
+	<script src="/js/jquery.placeholder.js"></script>
+	<script src="/js/jquery.smoothscroll.js"></script>
+	<script src="/js/jquery.stellar.min.js"></script>
+	<script src="/js/jquery.waypoints.js"></script>
+	<script src="/js/jquery.fitvids.js"></script>
+	<script src="/js/jquery.magnific-popup.min.js"></script>
+	<script src="/js/jquery.ajaxchimp.min.js"></script>
+	<script src="/js/jquery.countdown.js"></script>
+	<script src="/js/jquery.navbar-scroll.js"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script src="/js/jquery.gmaps.js"></script>
+	<script src="/js/main.js"></script>
+
+</body>
+</html>

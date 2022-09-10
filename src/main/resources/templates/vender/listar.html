@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="master">
+<meta charset="utf-8">
+<body>
+	<div th:fragment="contenido">
+		<h2>LISTA DE PEDIDOS</h2>
+		<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)"
+			th:if="${mensaje != null}" th:text="${mensaje}" class="alert">
+		</div>
+		<a class="btn btn-primary mb-2" th:href="@{/venta/registrar}">Registrar</a>
+		<a class="btn btn-danger mb-2" th:href="@{/venta/exportarPDF}">Exportar
+			PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+		</a> <a class="btn btn-success mb-2" th:href="@{/venta/exportarEXCEL}">Exportar
+			Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+		</a> <br>
+		<br>
+		
+		<div class="form-check form-check-inline" th:if="${modo==1}">
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio1" value="option1" Onclick="window.location = '/venta/listar/1'"  checked="checked">
+			<label class="form-check-label" for="inlineRadio1" style="margin-right: 20px">Todo</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio2" value="option2" Onclick="window.location = '/venta/listar/2'" >
+			<label class="form-check-label" for="inlineRadio2" style="margin-right: 20px">Registrados</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio3" value="option3" Onclick="window.location = '/venta/listar/3'">
+			<label class="form-check-label" for="inlineRadio2">Facturados</label>
+			
+		</div>
+		
+		<div class="form-check form-check-inline" th:if="${modo==2}">
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio1" value="option1" Onclick="window.location = '/venta/listar/1'"  >
+			<label class="form-check-label" for="inlineRadio1" style="margin-right: 20px">Todo</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio2" value="option2" Onclick="window.location = '/venta/listar/2'" checked="checked">
+			<label class="form-check-label" for="inlineRadio2" style="margin-right: 20px">Registrados</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio3" value="option3" Onclick="window.location = '/venta/listar/3'">
+			<label class="form-check-label" for="inlineRadio2">Facturados</label>
+			
+		</div>
+		
+		<div class="form-check form-check-inline" th:if="${modo==3}">
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio1" value="option1" Onclick="window.location = '/venta/listar/1'"  >
+			<label class="form-check-label" for="inlineRadio1" style="margin-right: 20px">Todo</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio2" value="option2" Onclick="window.location = '/venta/listar/2'" >
+			<label class="form-check-label" for="inlineRadio2" style="margin-right: 20px">Registrados</label>
+			
+			<input class="form-check-input" type="radio"
+				name="inlineRadioOptions" id="inlineRadio3" value="option3" Onclick="window.location = '/venta/listar/3'" checked="checked">
+			<label class="form-check-label" for="inlineRadio2">Facturados</label>
+			
+		</div>
+
+	
+		<br> <br>
+		<div class="table-responsive">
+			<table class="table" th:if="${!pedidos.isEmpty()}">
+				<thead class="thead-dark">
+					<tr class="text-center">
+						<th>Cód. Pedido</th>
+						<th>Cliente</th>
+						<th>Dirección</th>
+						<th>Fecha</th>
+						<th>Total</th>
+						<th>Estado</th>
+						<th>Opciones</th>
+					</tr>
+				</thead>
+				<tbody th:each="pedido : ${pedidos}">
+					<tr>
+						<td th:text="'P00'+${pedido.idpedido}"></td>
+						<td>
+							<p th:text="${pedido.getCliente().nombres}"></p>
+							<p th:text="${pedido.getCliente().apellidos}"></p>
+						</td>
+						<td th:text="${pedido.getCliente().direccion}"></td>
+						<td th:text="${pedido.fecha}"></td>
+						<td th:text="${'S/.'+pedido.monto}"></td>
+						<td th:if="${pedido.estado} == 'REGISTRADO'"
+							th:text="${pedido.estado}"
+							style="color: #D1180F; font-family: broadway"></td>
+						<td th:if="${pedido.estado} == 'FACTURADO'"
+							th:text="${pedido.estado}"
+							style="color: #3B981E; font-family: broadway"></td>
+						<td>
+							<!-- 								MODAL DETALLE -->
+							<div class="modal fade" th:id="'modal'+${pedido.idpedido}"
+								tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Detalle
+												del pedido</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+
+											<p>
+												<b>Repartidor</b>
+											</p>
+											<p
+												th:text="${pedido.getTrabajador().nombres+' '+pedido.getTrabajador().apellidos}"></p>
+
+											<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th>Nombre</th>
+															<th>Categoria</th>
+															<th>Cantidad vendida</th>
+															<th>Precio</th>
+															<th>Total</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="detalle : ${pedido.getDetallepedido()}">
+															<td th:text="${detalle.getProducto().nombre}"></td>
+															<td
+																th:text="${detalle.getProducto().categoria.descripcion}"></td>
+															<td th:text="${detalle.cantidad}"></td>
+															<td th:text="${detalle.precio}"></td>
+															<td th:text="${'S/.'+detalle.getTotal()}"></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-outline-primary"
+													data-dismiss="modal">Cerrar</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div> <!-- 						FIN MODAL -->
+
+							<button type="button" class="btn btn-info" data-toggle="modal"
+								th:attr="data-target='#modal'+${pedido.idpedido}">
+								Ver <i class="fa fa-eye" aria-hidden="true"></i>
+							</button> 
+							<!-- 							MODAL ELIMINAR -->
+							<div class="modal fade"
+								th:id="'modalcancelar'+${pedido.idpedido}" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Mensaje
+												de Confirmación</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">¿Esta seguro de eliminar el
+											pedido?</div>
+										<div class="modal-footer">
+											<form th:action="@{/venta/eliminar}" method="post">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Cancelar</button>
+												<input type="hidden" name="idpedido"
+													th:value="${pedido.idpedido}" />
+												<button type="submit" class="btn btn-danger">Aceptar</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div> <!-- 							FIN MODAL -->
+							<button type="button" class="btn btn-danger" data-toggle="modal"
+								th:attr="data-target='#modalcancelar'+${pedido.idpedido}">
+								Eliminar <i class="fa fa-trash"></i>
+							</button> <a class="btn btn-dark mb-2"
+							th:href="@{/venta/boleta/} + ${pedido.idpedido}">Boleta <i
+								class="fa fa-file" aria-hidden="true"></i></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<nav th:replace="paginator-nav::paginator"></nav>
+			<br>
+			<div th:if="${pedidos.isEmpty()}">
+				<h2>No existe registros de pedidos</h2>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+

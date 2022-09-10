@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+	integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
+	crossorigin="anonymous">
+<link rel="icon" href="/images/gas.ico" type="image/png" />
+
+<title>Administración | Gas Koko's</title>
+
+<!-- Bootstrap -->
+<link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="/vendors/bootstrap/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Font Awesome -->
+<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link href="/vendors/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet">
+<!-- NProgress -->
+<link href="/vendors/nprogress/nprogress.css" rel="stylesheet">
+<link href="/nprogress/nprogress.css" rel="stylesheet">
+<link href="/iCheck/skins/flat/green.css" rel="stylesheet">
+<!-- iCheck -->
+<link href="/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+<!-- bootstrap-progressbar -->
+<link
+	href="/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"
+	rel="stylesheet">
+<link
+	href="/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"
+	rel="stylesheet">
+<!-- JQVMap -->
+<link href="/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+<link href="/bootstrap-daterangepicker/daterangepicker.css"
+	rel="stylesheet">
+<link href="/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+<!-- bootstrap-daterangepicker -->
+<link href="/vendors/bootstrap-daterangepicker/daterangepicker.css"
+	rel="stylesheet">
+
+<!-- Custom Theme Style -->
+<link href="/build/css/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<div class="col-md-3 left_col">
+				<div class="left_col scroll-view">
+					<div class="navbar nav_title" style="border: 0;">
+						<a th:href="@{/menu}" class="site_title"> <span>Gas
+								Koko's</span></a>
+					</div>
+
+					<div class="clearfix"></div>
+
+					<!-- menu profile quick info -->
+					<div class="profile clearfix">
+						<div class="profile_pic">
+							<img src="/build/images/img.jpg" alt="..."
+								class="img-circle profile_img">
+						</div>
+						<div class="profile_info">
+							<span>Bienvenido,</span>
+							<div th:each="usuario: ${usuarios}"
+								th:if="${usuario.username == #httpServletRequest.getRemoteUser}">
+								<h2 th:text="${usuario.getTrabajador().nombres}"></h2>
+							</div>
+						</div>
+					</div>
+					<!-- /menu profile quick info -->
+
+					<br />
+
+					<!-- sidebar menu -->
+					<div id="sidebar-menu"
+						class="main_menu_side hidden-print main_menu">
+						<div class="menu_section">
+							<h3>General</h3>
+							<ul class="nav side-menu" th:each="usuario: ${usuarios}"
+								th:if="${usuario.username == #httpServletRequest.getRemoteUser}">
+								<li
+									th:if="${usuario.getAuthority().id == 1 or usuario.getAuthority().id == 2}"><a><i
+										class="fa fa-check" aria-hidden="true"></i> Productos <span
+										class="fa fa-chevron-down"></span></a>
+									<ul class="nav child_menu">
+										<li><a th:href="@{/producto/listar/1}">Ver lista</a></li>
+										<li><a th:href="@{/producto/registrar}">Registrar</a></li>
+									</ul></li>
+
+								<li
+									th:if="${usuario.getAuthority().id == 1 or usuario.getAuthority().id == 2}"><a><i
+										class="fa fa-sitemap"></i> Clientes <span
+										class="fa fa-chevron-down"></span></a>
+									<ul class="nav child_menu">
+										<li><a th:href="@{/cliente/listar}">Ver lista</a></li>
+										<li><a th:href="@{/cliente/registrar}">Registrar</a></li>
+									</ul></li>
+
+								<li
+									th:if="${usuario.getAuthority().id == 1 or usuario.getAuthority().id == 2}"><a><i
+										class="fa fa-briefcase" aria-hidden="true"></i> Trabajadores <span
+										class="fa fa-chevron-down"></span></a>
+									<ul class="nav child_menu">
+										<li><a th:href="@{/trabajador/listar}">Ver lista</a></li>
+										<li><a th:href="@{/trabajador/registrar}">Registrar</a></li>
+									</ul></li>
+
+								<li
+									th:if="${usuario.getAuthority().id == 1 or usuario.getAuthority().id == 2 or usuario.getAuthority().id == 3}"><a><i
+										class="fa fa-edit"></i> Pedidos <span
+										class="fa fa-chevron-down"></span></a>
+									<ul class="nav child_menu">
+										<li
+											th:if="${usuario.getAuthority().id == 1 or usuario.getAuthority().id == 2}"><a
+											th:href="@{/venta/listar/1}">Listar</a></li>
+										<li><a th:href="@{/venta/pagar}">Facturar</a></li>
+										<li
+											th:if="${usuario.getAuthority().id == 1 or usuario.getAuthority().id == 2}"><a
+											th:href="@{/venta/registrar}">Registrar</a></li>
+									</ul></li>
+
+								<li th:if="${usuario.getAuthority().id == 1}"><a><i
+										class="fa fa-bar-chart-o"></i> Reportes <span
+										class="fa fa-chevron-down"></span></a>
+									<ul class="nav child_menu">
+									
+										<li th:each="usuario: ${usuarios}"
+								th:if="${usuario.username == #httpServletRequest.getRemoteUser}"><a th:href="@{/reporte/ventas/}+${usuario.getFecha()}">Reporte de ventas diarias</a></li>
+										<li><a th:href="@{/reporte/stock}">Reporte de stock de productos</a></li>
+										<li th:each="usuario: ${usuarios}"
+								th:if="${usuario.username == #httpServletRequest.getRemoteUser}"><a th:href="@{/reporte/clientes/}+${usuario.getFecha().toString().substring(0,7)}">Reporte mensual de clientes</a></li>
+									</ul></li>
+
+							</ul>
+						</div>
+
+					</div>
+					<!-- sidebar menu -->
+				</div>
+			</div>
+
+			<!-- top navigation -->
+			<div class="top_nav">
+				<div class="nav_menu">
+					<div class="nav toggle">
+						<a id="menu_toggle" class="p-3"><i class="fa fa-bars"></i></a>
+					</div>
+
+					<nav class="nav navbar-nav">
+						<ul class=" navbar-right">
+							<li class="nav-item dropdown open" style="padding-left: 15px;">
+								<a  class="user-profile dropdown-toggle"
+								aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown"
+								aria-expanded="false"> <img src="/build/images/img.jpg"
+									alt="Perfil" >
+								</a>
+								<div class="dropdown-menu dropdown-usermenu pull-right"
+									aria-labelledby="navbarDropdown">
+		
+										<a th:each="usuario: ${usuarios}" th:if="${usuario.username == #httpServletRequest.getRemoteUser}" th:href="@{/perfil/} + ${usuario.getTrabajador().idtrabajador}" class="dropdown-item"><i class="fa fa-user" style="margin-right: 7px"></i>   Ver Perfil</a>
+								
+									<form th:action="@{/logout}"
+										method="post">
+
+										<button type="submit" class="dropdown-item"
+											style="width: 100%" onclick="return confirm('¿Estás seguro que desea cerrar sesión?');">
+											<i class="fa fa-sign-out" style="margin-right: 7px"></i>   Cerrar Sesión 
+										</button>
+									</form>
+
+								</div>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- /top navigation -->
+
+			<!-- page content -->
+			<div class="right_col">
+				<!-- portada -->
+				<div th:if="${fragmento == 0}" th:insert="/home::contenido"></div>
+				<!-- lista de productos -->
+				<div th:if="${fragmento == 1}"
+					th:insert="/producto/listar::contenido"></div>
+				<!-- editar producto -->
+				<div th:if="${fragmento == 2}"
+					th:insert="/producto/editar_producto::contenido"></div>
+				<!-- agregar producto -->
+				<div th:if="${fragmento == 3}"
+					th:insert="/producto/registrar_producto::contenido"></div>
+				<!-- lista de clientes -->
+				<div th:if="${fragmento == 4}"
+					th:insert="/cliente/listar::contenido"></div>
+				<!-- editar cliente -->
+				<div th:if="${fragmento == 5}"
+					th:insert="/cliente/editar_cliente::contenido"></div>
+				<!-- agregar cliente -->
+				<div th:if="${fragmento == 6}"
+					th:insert="/cliente/registrar_cliente::contenido"></div>
+				<!-- registrar pedido -->
+				<div th:if="${fragmento == 7}"
+					th:insert="/vender/registrar_venta::contenido"></div>
+				<!-- lista de pedidos -->
+				<div th:if="${fragmento == 8}" th:insert="/vender/listar::contenido"></div>
+				<!-- lista de trabajadores -->
+				<div th:if="${fragmento == 9}"
+					th:insert="/trabajador/listar::contenido"></div>
+				<!-- editar trabajador -->
+				<div th:if="${fragmento == 10}"
+					th:insert="/trabajador/editar_trabajador::contenido"></div>
+				<!-- agregar trabajador -->
+				<div th:if="${fragmento == 11}"
+					th:insert="/trabajador/registrar_trabajador::contenido"></div>
+				<!-- facturar pedido -->
+				<div th:if="${fragmento == 12}"
+					th:insert="/vender/facturar::contenido"></div>
+				<!-- ver perfil -->
+				<div th:if="${fragmento == 13}"
+					th:insert="/seguridad/ver_perfil::contenido"></div>
+					<!-- ver reporte de stock -->
+				<div th:if="${fragmento == 14}"
+					th:insert="/reportes/reportestock::contenido"></div>
+					<!-- ver reporte de ventas-->
+				<div th:if="${fragmento == 15}"
+					th:insert="/reportes/reporteventa::contenido"></div>
+					<!-- ver reporte de clientes mensual-->
+				<div th:if="${fragmento == 16}"
+					th:insert="/reportes/reportecliente::contenido"></div>
+			</div>
+			<!-- /page content -->
+
+			<!-- footer content -->
+			<footer>
+				<div class="pull-right">Gas Koko's - Más cerca de ti....</div>
+				<div class="clearfix"></div>
+			</footer>
+			<!-- /footer content -->
+		</div>
+	</div>
+	<!-- jQuery -->
+	<script src="/vendors/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- FastClick -->
+	<script src="/vendors/fastclick/lib/fastclick.js"></script>
+	<!-- NProgress -->
+	<script src="/vendors/nprogress/nprogress.js"></script>
+	<!-- Chart.js -->
+	<script src="/vendors/Chart.js/dist/Chart.min.js"></script>
+	<!-- gauge.js -->
+	<script src="/vendors/gauge.js/dist/gauge.min.js"></script>
+	<!-- bootstrap-progressbar -->
+	<script
+		src="/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+	<!-- iCheck -->
+	<script src="/vendors/iCheck/icheck.min.js"></script>
+	<!-- Skycons -->
+	<script src="/vendors/skycons/skycons.js"></script>
+	<!-- Flot -->
+	<script src="/vendors/Flot/jquery.flot.js"></script>
+	<script src="/vendors/Flot/jquery.flot.pie.js"></script>
+	<script src="/vendors/Flot/jquery.flot.time.js"></script>
+	<script src="/vendors/Flot/jquery.flot.stack.js"></script>
+	<script src="/vendors/Flot/jquery.flot.resize.js"></script>
+	<!-- Flot plugins -->
+	<script src="/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+	<script src="/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+	<script src="/vendors/flot.curvedlines/curvedLines.js"></script>
+	<!-- DateJS -->
+	<script src="/vendors/DateJS/build/date.js"></script>
+	<!-- JQVMap -->
+	<script src="/vendors/jqvmap/dist/jquery.vmap.js"></script>
+	<script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+	<script src="/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+	<!-- bootstrap-daterangepicker -->
+	<script src="/vendors/moment/min/moment.min.js"></script>
+	<script src="/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+	<!-- Custom Theme Scripts -->
+	<script src="/build/js/custom.min.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+

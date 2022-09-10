@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:fragment="contenido" >
+		<h2>LISTA DE CLIENTES</h2>
+		<a class="btn btn-primary mb-2" th:href="@{/cliente/registrar}">Registrar</a>
+		<a class="btn btn-danger mb-2" th:href="@{/cliente/exportarPDF}">Exportar PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+		<a class="btn btn-success mb-2" th:href="@{/cliente/exportarEXCEL}">Exportar Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+		<div class="table-responsive">
+		<table class="table " th:if="${!clientes.isEmpty()}">
+			<thead class="thead-dark">
+				<tr class="text-center">
+					<th>CLIENTE</th>
+					<th>DNI</th>
+					<th>TELEFONO</th>
+					<th>DIRECCIÓN</th>
+					<th>DISTRITO</th>
+					<th>OPCIONES</th>
+				</tr>
+			</thead>
+			<tbody th:each="cliente: ${clientes}">
+				<tr th:if="${cliente.estado=='ACTIVO'}">
+					<td th:text="${cliente.nombres+' '+cliente.apellidos}"></td>
+					<td th:text="${cliente.dni}"></td>
+					<td th:text="${cliente.telefono}"></td>
+					<td th:text="${cliente.direccion}"></td>
+					<td th:text="${cliente.distrito.nombre}"></td>
+					<td class="justify-content-center d-flex">
+<!-- 							MODAL -->
+							<div class="modal fade" th:id="'modal'+${cliente.idcliente}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">Mensaje de Confirmación</h5>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+							      <div class="modal-body">
+							        ¿Esta seguro de eliminar el cliente?
+							      </div>
+							      <div class="modal-footer">
+							        <form th:action="@{/cliente/eliminar}" method="post" > 
+							        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	 									<input type="hidden" name="idcliente" th:value="${cliente.idcliente}" />
+								        <button type="submit" class="btn btn-danger">Aceptar</button>
+							        </form>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+<!-- 							FIN MODAL -->
+							<button type="button" class="btn btn-danger" data-toggle="modal"  th:attr="data-target='#modal'+${cliente.idcliente}" >
+								Eliminar <i class="fa fa-trash"></i>
+							</button>
+
+						
+						<a class="btn btn-warning" th:href="@{/cliente/editar/} + ${cliente.idcliente}" style="color: white;">Editar <i
+                                class="fa fa-edit"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<nav th:replace="paginator-nav::paginator"></nav>
+		</div>
+		<br>
+		<div th:if="${clientes.isEmpty()}">
+			<h2>No existe registros de clientes</h2>
+		</div>
+	</div>
+</body>
+</html>

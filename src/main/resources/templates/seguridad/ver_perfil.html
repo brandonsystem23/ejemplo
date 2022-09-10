@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<meta charset="utf-8">
+<body>
+	<div th:fragment="contenido">
+
+		<h2>PERFIL DE USUARIO</h2>
+		<div class="justify-content-center d-flex "
+			th:each="usuario: ${usuarios}"
+			th:if="${usuario.username == #httpServletRequest.getRemoteUser}">
+			<img th:if="${usuario.getTrabajador().foto != null}"
+				class="img-circle m-2" width="150px" height="150px"
+				th:src="@{'/uploads/' + ${usuario.getTrabajador().foto}}"
+				th:alt="${usuario.getTrabajador().foto}" /> 
+				
+			<img th:if="${usuario.getTrabajador().foto == null}"
+				class="img-circle m-2" width="150px" height="150px"
+				th:src="@{'/images/user.png'}"
+				th:alt="${usuario.getTrabajador().foto}" />
+
+		</div>
+		<div class="justify-content-center d-flex "
+			th:each="usuario: ${usuarios}"
+			th:if="${usuario.username == #httpServletRequest.getRemoteUser}">
+			<a class="btn btn-success" th:if="${usuario.getTrabajador().foto == null}" data-toggle="modal"
+				data-target="#cambiofoto" style="color: white">Agregar Foto <i
+				class="fa fa-user-plus" aria-hidden="true"></i>
+			</a>
+			
+			<a class="btn btn-success" th:if="${usuario.getTrabajador().foto != null}" data-toggle="modal"
+				data-target="#cambiofoto" style="color: white">Actualizar Foto <i
+				class="fa fa-user-plus" aria-hidden="true"></i>
+			</a>
+			
+			<a class="btn btn-danger"
+				th:if="${usuario.getTrabajador().foto != null}"
+				th:href="@{/borrar/} + ${usuario.getTrabajador().idtrabajador}"
+				onclick="return confirm('¿Estás seguro que quieres eliminar?');">Eliminar
+				foto <i class="fa fa-trash"></i>
+			</a>
+		</div>
+		<form th:action="@{/perfil/} + ${trabajador.idtrabajador}"
+			method="post" th:object="${trabajador}">
+			<div th:each="usuario: ${usuarios}"
+				th:if="${usuario.username == #httpServletRequest.getRemoteUser}">
+
+				<input type="hidden" th:field="*{idtrabajador}">
+				<div class="form-group">
+					<label for="apellidos">Apellidos</label> <input autocomplete="off"
+						autofocus th:field="*{apellidos}" id="apellidos"
+						placeholder="Ingrese los apellidos del trabajador" type="text"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('apellidos')} ? 'is-invalid' : ''"
+						required="required"
+						disabled="disabled">
+					<div class="invalid-feedback" th:errors="*{apellidos}"></div>
+				</div>
+
+				<div class="form-group">
+					<label for="nombres">Nombres</label> <input autocomplete="off"
+						autofocus th:field="*{nombres}" id="nombres"
+						placeholder="Ingrese los nombres del trabajador" type="text"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('nombres')} ? 'is-invalid' : ''"
+						required="required" 
+						disabled="disabled">
+					<div class="invalid-feedback" th:errors="*{nombres}"></div>
+				</div>
+
+				<div class="form-group">
+					<label for="dni">DNI</label> <input autocomplete="off"
+						th:field="*{dni}" id="dni" placeholder="Ingrese el DNI del trabajador"
+						type="number" class="form-control"
+						th:classappend="${#fields.hasErrors('dni')} ? 'is-invalid' : ''"
+						required="required" disabled="disabled">
+					<div class="invalid-feedback" th:errors="*{dni}"></div>
+				</div>
+
+
+				<div class="form-group">
+					<label for="telefono">Telefono</label> <input autocomplete="off"
+						th:field="*{telefono}" id="telefono"
+						placeholder="Ingrese el telefono del trabajador" type="number"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid' : ''"
+						required="required" disabled="disabled">
+					<div class="invalid-feedback" th:errors="*{telefono}"></div>
+				</div>
+
+				<div class="form-group">
+					<label for="email">Email</label> <input autocomplete="off"
+						th:field="*{email}" id="email" placeholder="Ingrese el email del trabajador"
+						type="email" class="form-control"
+						th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+					 disabled="disabled">
+					<div class="invalid-feedback" th:errors="*{email}"></div>
+				</div>
+
+				<div class="form-group">
+					<label for="direccion">Dirección</label> <input autocomplete="off"
+						th:field="*{direccion}" id="direccion"
+						placeholder="Ingrese  la dirección del trabajador" type="text"
+						class="form-control"
+						th:classappend="${#fields.hasErrors('direccion')} ? 'is-invalid' : ''"
+						required="required"
+						disabled="disabled">
+					<div class="invalid-feedback" th:errors="*{direccion}"></div>
+				</div>
+
+				
+				<div class="form-group">
+					<label for="distrito">Distrito</label> 
+					<input
+						autocomplete="off"  list="distrito" th:field="*{distrito.nombre}" 
+						id="distrito.nombre"
+						placeholder="Ingrese el distrito del trabajador" type="text"
+						class="form-control" required="required" disabled="disabled">
+				</div>
+					
+				<datalist id="distrito" >	
+						<option th:each="item: ${distritos}" th:text="${item.nombre}"></option>
+				</datalist >
+
+			</div>
+			<a href="#" data-toggle="modal" data-target="#cambiocontra">
+				Cambiar contraseña</a><br> <br>
+			<button class="btn btn-primary" type="button" onclick="activar()">
+				Editar <i class="fa fa-edit" aria-hidden="true"></i>
+			</button>
+			<button class="btn btn-success" type="submit" disabled="disabled"
+				id="guardar">
+				Guardar <i class="fa fa-floppy-o" aria-hidden="true"></i>
+			</button>
+		</form>
+
+
+		<!-- 							MODAL CONTRASEÑA -->
+		<div class="modal fade" id="cambiocontra" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Cambio de
+							contraseña</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body" style="padding-bottom: 0px">Ingrese
+						la nueva contraseña</div>
+					<div class="p-3">
+						<form th:action="@{/nuevacontra}" method="post">
+							<div th:each="usuario: ${usuarios}"
+								th:if="${usuario.username == #httpServletRequest.getRemoteUser}">
+								<input type="hidden" id="idusuario" name="idusuario"
+									th:value="${usuario.id}" />
+							</div>
+
+
+							<input autocomplete="off" id="password" name="password"
+								placeholder="Nueva contraseña" type="password"
+								style="padding: 8px; font-family: Arial; border-width: 1px; border-radius: 6px; width: 80%"
+								required="required">
+
+							<button id="show_password" class="btn btn-outline-dark"
+								type="button" onclick="mostrarPassword()">
+								<span class="fa fa-eye-slash icon"></span>
+							</button>
+		
+
+
+							<br>
+							<br>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+							<button type="submit" class="btn btn-success">Aceptar</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 							FIN MODAL -->
+
+
+		<!-- 							MODAL CAMBIO DE FOTO -->
+		<div class="modal fade" id="cambiofoto" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Cambio de foto
+							de perfil</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="p-3">
+						<form th:action="@{/nuevafoto}" method="post"
+							enctype="multipart/form-data">
+							<div th:each="usuario: ${usuarios}"
+								th:if="${usuario.username == #httpServletRequest.getRemoteUser}">
+								<input type="hidden" id="idtrabajador" name="idtrabajador"
+									th:value="${usuario.getTrabajador().idtrabajador}" />
+							</div>
+
+							<div class="form-group">
+								<label for="file">Seleccione una foto</label> <input accept="image/png,image/jpeg" type="file" name="file"
+									class="form-control" style="border-radius: 8px"/>
+							</div>
+							<br>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Cancelar</button>
+
+							<button type="submit" class="btn btn-success">Aceptar</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 							FIN MODAL -->
+
+
+		<script type="text/javascript">
+			function activar() {
+				document.getElementById("nombres").disabled = false;
+				document.getElementById("apellidos").disabled = false;
+				document.getElementById("telefono").disabled = false;
+				document.getElementById("email").disabled = false;
+				document.getElementById("guardar").disabled = false;
+				document.getElementById("dni").disabled = false;
+				document.getElementById("direccion").disabled = false;
+				document.getElementById("distrito.nombre").disabled = false;
+
+			}
+
+			function mostrarPassword() {
+				var cambio = document.getElementById("password");
+				if (cambio.type == "password") {
+					cambio.type = "text";
+					$('.icon').removeClass('fa fa-eye-slash').addClass(
+							'fa fa-eye');
+				} else {
+					cambio.type = "password";
+					$('.icon').removeClass('fa fa-eye').addClass(
+							'fa fa-eye-slash');
+				}
+			}
+
+			$(document).ready(
+					function() {
+						//CheckBox mostrar contraseña
+						$('#ShowPassword').click(
+								function() {
+									$('#Password').attr(
+											'type',
+											$(this).is(':checked') ? 'text'
+													: 'password');
+								});
+					});
+		</script>
+	</div>
+</body>
+</html>

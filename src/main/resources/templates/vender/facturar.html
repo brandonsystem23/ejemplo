@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="master">
+<meta charset="utf-8">
+<body>
+	<div th:fragment="contenido">
+			<h2>LISTA DE PEDIDOS POR FACTURAR</h2>
+			<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)"
+				th:if="${mensaje != null}" th:text="${mensaje}" class="alert">
+			</div>
+			<div class="table-responsive">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr class="text-center">
+							<th>ID Pedido</th>
+							<th>Cliente</th>
+							<th>Dirección</th>
+							<th>Fecha</th>
+							<th>Total</th>
+							<th>Estado</th>
+							<th>Opciones</th>
+						</tr>
+					</thead>
+					<tbody th:each="pedido : ${pedidos}" th:if="${pedido.estado=='REGISTRADO' and (pedido.getTrabajador().getUser().username == #httpServletRequest.getRemoteUser or #httpServletRequest.getRemoteUser=='sdiaz@gaskokos.com')}">
+						<tr >
+							<td th:text="'P00'+${pedido.idpedido}"></td>
+							<td>
+								<p th:text="${pedido.getCliente().nombres}"></p>
+								<p th:text="${pedido.getCliente().apellidos}"></p>
+							</td>
+							<td th:text="${pedido.getCliente().direccion}"></td>
+							<td th:text="${pedido.fecha}"></td>
+							<td th:text="${'S/.'+pedido.monto}"></td>
+							<td th:if="${pedido.estado} == 'REGISTRADO'" th:text="${pedido.estado}" style="color:#D1180F;font-family: broadway"></td>
+							<td th:if="${pedido.estado} == 'FACTURADO'" th:text="${pedido.estado}" style="color:#3B981E;font-family: broadway"></td>
+							<td>
+								<!-- 								MODAL DETALLE -->
+								<div class="modal fade" th:id="'modal'+${pedido.idpedido}"
+									tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Detalle
+													del pedido</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<p ><b>Repartidor</b></p>
+												<p th:text="${pedido.getTrabajador().nombres+' '+pedido.getTrabajador().apellidos}"></p>
+												
+												<div class="table-responsive">
+												<table class="table table-hover">
+													<thead>
+														<tr>
+															<th>Nombre</th>
+															<th>Categoria</th>
+															<th>Cantidad vendida</th>
+															<th>Precio</th>
+															<th>Total</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="detalle : ${pedido.getDetallepedido()}">
+															<td th:text="${detalle.getProducto().nombre}"></td>
+															<td
+																th:text="${detalle.getProducto().categoria.descripcion}"></td>
+															<td th:text="${detalle.cantidad}"></td>
+															<td th:text="${detalle.precio}"></td>
+															<td th:text="${'S/.'+detalle.getTotal()}"></td>
+														</tr>
+													</tbody>
+												</table>
+												</div>
+												<div class="modal-footer">
+												<button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+											</div>
+											</div>
+										</div>
+									</div>
+								</div> <!-- 						FIN MODAL -->
+
+								<button type="button" class="btn btn-info" data-toggle="modal"
+									th:attr="data-target='#modal'+${pedido.idpedido}">
+									Ver  <i class="fa fa-eye" aria-hidden="true"></i>
+								</button>
+								
+								
+								<!-- 							MODAL FACTURADO -->
+							<div class="modal fade" th:id="'modalfacturar'+${pedido.idpedido}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLabel">Mensaje de Confirmación</h5>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+							      <div class="modal-body">
+							        ¿Esta seguro de facturar el pedido?
+							      </div>
+							      <div class="modal-footer">
+							        <form th:action="@{/venta/facturar}" method="post" > 
+							        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+	 									<input type="hidden" name="idpedido" th:value="${pedido.idpedido}" />
+								        <button type="submit" class="btn btn-success">Aceptar</button>
+							        </form>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+<!-- 							FIN MODAL -->
+							<button type="button" class="btn btn-success" data-toggle="modal"  th:attr="data-target='#modalfacturar'+${pedido.idpedido}" >
+								Facturar <i class="fa fa-check"></i>
+							</button>
+							
+							<a class="btn btn-dark mb-2" th:href="@{/venta/boleta/} + ${pedido.idpedido}">Boleta <i class="fa fa-file" aria-hidden="true"></i></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<nav th:replace="paginator-nav::paginator"></nav>
+			</div>
+		</div>
+</body>
+</html>
+
+

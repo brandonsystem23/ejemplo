@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <body>
 	<div th:fragment="contenido">
-		<h2>LISTA DE PEDIDOS</h2>
+		<h2>PEDIDOS</h2>
 		<div th:classappend="'alert-' + (${clase != null} ? ${clase} : info)"
 			th:if="${mensaje != null}" th:text="${mensaje}" class="alert">
 		</div>
